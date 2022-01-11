@@ -352,6 +352,8 @@ PODS:
     - React-perflogger (= 0.66.4)
   - RNGestureHandler (2.1.0):
     - React-Core
+  - RNImageMarker (0.6.3):
+    - React
   - RNReanimated (2.3.1):
     - DoubleConversion
     - FBLazyVector
@@ -454,6 +456,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNImageMarker (from `../node_modules/react-native-image-marker`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNStaticSafeAreaInsets (from `../node_modules/react-native-static-safe-area-insets`)
@@ -549,6 +552,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNImageMarker:
+    :path: "../node_modules/react-native-image-marker"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -611,6 +616,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: dec32ee6f2e2a26e13e58152271535fadff5455a
   ReactCommon: 57b69f6383eafcbd7da625bfa6003810332313c4
   RNGestureHandler: e5c7cab5f214503dcefd6b2b0cefb050e1f51c4a
+  RNImageMarker: 76cd113306bcfad2f74f78d83d5accfd50b4434a
   RNReanimated: da3860204e5660c0dd66739936732197d359d753
   RNScreens: 522705f2e5c9d27efb17f24aceb2bf8335bc7b8e
   RNStaticSafeAreaInsets: 6103cf09647fa427186d30f67b0f5163c1ae8252
