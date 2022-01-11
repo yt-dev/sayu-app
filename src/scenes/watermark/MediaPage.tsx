@@ -46,7 +46,7 @@ const isVideoOnLoadEvent = (
 
 type Props = NativeStackScreenProps<Routes, 'MediaPage'>;
 export function MediaPage({navigation, route}: Props): React.ReactElement {
-  const {path, type} = route.params;
+  const {path, type, album} = route.params;
   const [hasMediaLoaded, setHasMediaLoaded] = useState(false);
   const isForeground = useIsForeground();
   const isScreenFocused = useIsFocused();
@@ -95,6 +95,7 @@ export function MediaPage({navigation, route}: Props): React.ReactElement {
       }
       await CameraRoll.save(`file://${path}`, {
         type: type,
+        album: album,
       });
       setSavingState('saved');
     } catch (e) {
@@ -105,7 +106,7 @@ export function MediaPage({navigation, route}: Props): React.ReactElement {
         `An unexpected error occured while trying to save your ${type}. ${message}`,
       );
     }
-  }, [path, type]);
+  }, [album, path, type]);
 
   const source = useMemo(() => ({uri: `file://${path}`}), [path]);
 

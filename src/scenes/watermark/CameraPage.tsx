@@ -46,7 +46,8 @@ const SCALE_FULL_ZOOM = 3;
 const BUTTON_SIZE = 40;
 
 type Props = NativeStackScreenProps<Routes, 'CameraPage'>;
-export function CameraPage({navigation}: Props): React.ReactElement {
+export function CameraPage({navigation, route}: Props): React.ReactElement {
+  const {groupName} = route.params;
   const camera = useRef<Camera>(null);
   const [isCameraInitialized, setIsCameraInitialized] = useState(false);
   const [hasMicrophonePermission, setHasMicrophonePermission] = useState(false);
@@ -184,9 +185,10 @@ export function CameraPage({navigation}: Props): React.ReactElement {
       navigation.navigate('MediaPage', {
         path: media.path,
         type: type,
+        album: groupName,
       });
     },
-    [navigation],
+    [groupName, navigation],
   );
   const onFlipCameraPressed = useCallback(() => {
     setCameraPosition(p => (p === 'back' ? 'front' : 'back'));

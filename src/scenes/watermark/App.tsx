@@ -6,6 +6,7 @@ import {Camera, CameraPermissionStatus} from 'react-native-vision-camera';
 import {PermissionsPage} from './PermissionsPage';
 import {MediaPage} from './MediaPage';
 import {CameraPage} from './CameraPage';
+import {AlbumsPage} from './AlbumsPage';
 import type {Routes} from './Routes';
 
 const Stack = createNativeStackNavigator<Routes>();
@@ -42,9 +43,10 @@ export function App(): React.ReactElement | null {
           animationTypeForReplace: 'push',
         }}
         initialRouteName={
-          showPermissionsPage ? 'PermissionsPage' : 'CameraPage'
+          showPermissionsPage ? 'PermissionsPage' : 'AlbumsPage'
         }>
         <Stack.Screen name="PermissionsPage" component={PermissionsPage} />
+        <Stack.Screen name="AlbumsPage" component={AlbumsPage} />
         <Stack.Screen name="CameraPage" component={CameraPage} />
         <Stack.Screen
           name="MediaPage"
