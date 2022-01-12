@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 
-import {Center} from '@components/Center';
+import {Center} from 'components';
 import {TextInput} from 'react-native-gesture-handler';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
