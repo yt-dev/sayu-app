@@ -20,6 +20,8 @@ import type {ImageLoadEventData} from 'react-native';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import type {Routes} from './Routes';
 import {useIsFocused} from '@react-navigation/core';
+import Marker from 'react-native-image-marker';
+import {Toast} from 'components/Toast';
 
 const requestSavePermission = async (): Promise<boolean> => {
   if (Platform.OS !== 'android') {
@@ -81,32 +83,49 @@ export function MediaPage({navigation, route}: Props): React.ReactElement {
     console.log(`failed to load media: ${JSON.stringify(error)}`);
   }, []);
 
-  const onSavePressed = useCallback(async () => {
-    try {
-      setSavingState('saving');
+  const onSavePressed = useCallback(
+    async (attachWatermark = true) => {
+      try {
+        setSavingState('saving');
 
-      const hasPermission = await requestSavePermission();
-      if (!hasPermission) {
+        const hasPermission = await requestSavePermission();
+        if (!hasPermission) {
+          Alert.alert(
+            'Permission denied!',
+            'Vision Camera does not have permission to save the media to your camera roll.',
+          );
+          return;
+        }
+
+        let tag = `file://${path}`;
+        if (attachWatermark) {
+          tag = await Marker.markText({
+            src: tag,
+            text: album,
+            position: 'bottomLeft',
+            color: '#FF0000',
+            fontName: 'Arial-BoldItalicMT',
+            fontSize: 44,
+            scale: 1,
+            quality: 100,
+          });
+        }
+        await CameraRoll.save(tag, {
+          type: type,
+          album: album,
+        });
+        setSavingState('saved');
+      } catch (e) {
+        const message = e instanceof Error ? e.message : JSON.stringify(e);
+        setSavingState('none');
         Alert.alert(
-          'Permission denied!',
-          'Vision Camera does not have permission to save the media to your camera roll.',
+          'Failed to save!',
+          `An unexpected error occured while trying to save your ${type}. ${message}`,
         );
-        return;
       }
-      await CameraRoll.save(`file://${path}`, {
-        type: type,
-        album: album,
-      });
-      setSavingState('saved');
-    } catch (e) {
-      const message = e instanceof Error ? e.message : JSON.stringify(e);
-      setSavingState('none');
-      Alert.alert(
-        'Failed to save!',
-        `An unexpected error occured while trying to save your ${type}. ${message}`,
-      );
-    }
-  }, [album, path, type]);
+    },
+    [album, path, type],
+  );
 
   const source = useMemo(() => ({uri: `file://${path}`}), [path]);
 
@@ -148,30 +167,22 @@ export function MediaPage({navigation, route}: Props): React.ReactElement {
       )}
 
       <PressableOpacity style={styles.closeButton} onPress={onClosePressed}>
-        <IonIcon name="close" size={35} color="white" style={styles.icon} />
+        <IonIcon name="close" size={35} style={styles.icon} />
       </PressableOpacity>
+
+      {savingState === 'saved' && <Toast message="Saved to photo library" />}
 
       <PressableOpacity
         style={styles.saveButton}
         onPress={onSavePressed}
         disabled={savingState !== 'none'}>
         {savingState === 'none' && (
-          <IonIcon
-            name="download"
-            size={35}
-            color="white"
-            style={styles.icon}
-          />
+          <IonIcon name="download" size={35} style={styles.icon} />
         )}
         {savingState === 'saved' && (
-          <IonIcon
-            name="checkmark"
-            size={35}
-            color="white"
-            style={styles.icon}
-          />
+          <IonIcon name="checkmark" size={35} style={styles.icon} />
         )}
-        {savingState === 'saving' && <ActivityIndicator color="white" />}
+        {savingState === 'saving' && <ActivityIndicator />}
       </PressableOpacity>
 
       <StatusBarBlurBackground />

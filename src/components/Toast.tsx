@@ -4,9 +4,9 @@ import {Text, Animated, View} from 'react-native';
 
 interface ToastProps {
   message: string;
-  onHide: () => void;
+  onHide?: () => void;
 }
-export const Toast: React.FC<ToastProps> = props => {
+export const Toast: React.FC<ToastProps> = ({message, onHide}) => {
   const opacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -23,9 +23,9 @@ export const Toast: React.FC<ToastProps> = props => {
         useNativeDriver: true,
       }),
     ]).start(() => {
-      props.onHide();
+      onHide && onHide();
     });
-  }, [opacity, props]);
+  }, [onHide, opacity]);
 
   return (
     <Animated.View
@@ -58,7 +58,7 @@ export const Toast: React.FC<ToastProps> = props => {
           shadowRadius: 5,
           elevation: 6,
         }}>
-        <Text>{props.message}</Text>
+        <Text>{message}</Text>
       </View>
     </Animated.View>
   );
