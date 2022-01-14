@@ -4,7 +4,6 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  Pressable,
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
@@ -18,7 +17,7 @@ import {ScrollView, TextInput} from 'react-native-gesture-handler';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Routes} from './Routes';
-import {Fab, Icon, useColorModeValue} from 'native-base';
+import {Fab, useColorModeValue} from 'native-base';
 
 type AlbumsPageProps = NativeStackScreenProps<Routes, 'AlbumsPage'>;
 export const AlbumsPage: React.FC<AlbumsPageProps> = ({navigation}) => {
@@ -49,7 +48,11 @@ export const AlbumsPage: React.FC<AlbumsPageProps> = ({navigation}) => {
             title="Watermark Lite"
             image={require('../../assets/images/banner.png.webp')}
           />
-          <View style={styles.roundRectangle}>
+          <View
+            style={[
+              styles.roundRectangle,
+              {backgroundColor: isDarkMode ? Colors.darker : Colors.white},
+            ]}>
             <ScrollView
               showsVerticalScrollIndicator={false}
               contentInsetAdjustmentBehavior="automatic">
@@ -106,6 +109,5 @@ const styles = StyleSheet.create({
     padding: 20,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    backgroundColor: '#fff',
   },
 });
