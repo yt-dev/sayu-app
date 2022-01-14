@@ -13,11 +13,12 @@ import {
 } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 
-import {Center} from 'components';
-import {TextInput} from 'react-native-gesture-handler';
+import {Masthead} from 'components';
+import {ScrollView, TextInput} from 'react-native-gesture-handler';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Routes} from './Routes';
+import {Fab, Icon, useColorModeValue} from 'native-base';
 
 type AlbumsPageProps = NativeStackScreenProps<Routes, 'AlbumsPage'>;
 export const AlbumsPage: React.FC<AlbumsPageProps> = ({navigation}) => {
@@ -44,24 +45,40 @@ export const AlbumsPage: React.FC<AlbumsPageProps> = ({navigation}) => {
       style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={[styles.container, backgroundStyle]}>
-          <Center>
-            <Text style={{...styles.title, color}}>
-              New group based on reference number
-            </Text>
-            <TextInput
-              value={groupName}
-              onChangeText={setGroupName}
-              placeholder="Type reference number"
-              style={{...styles.input, color}}
-            />
-            <Pressable onPress={onPress}>
+          <Masthead
+            title="Watermark Lite"
+            image={require('../../assets/images/banner.png.webp')}
+          />
+          <View style={styles.roundRectangle}>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              contentInsetAdjustmentBehavior="automatic">
+              <Text style={{...styles.title, color}}>
+                New group based on reference number
+              </Text>
+              <TextInput
+                value={groupName}
+                onChangeText={setGroupName}
+                placeholder="Type reference number"
+                style={{...styles.input, color}}
+              />
+            </ScrollView>
+          </View>
+          <Fab
+            position="absolute"
+            renderInPortal={false}
+            size="sm"
+            icon={
               <IonIcon
                 name="arrow-forward-circle-outline"
-                color={color}
+                color="#fff"
                 size={33}
               />
-            </Pressable>
-          </Center>
+            }
+            colorScheme={useColorModeValue('blue', 'darkBlue')}
+            bg={useColorModeValue('blue.500', 'blue.400')}
+            onPress={onPress}
+          />
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
@@ -73,7 +90,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '600',
   },
   input: {
@@ -82,5 +99,13 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     marginTop: 10,
     marginBottom: 20,
+  },
+  roundRectangle: {
+    flex: 1,
+    marginTop: -20,
+    padding: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor: '#fff',
   },
 });
